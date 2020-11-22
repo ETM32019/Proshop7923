@@ -1,0 +1,19 @@
+{
+  "folders": [
+	{
+		"name": "images",
+		"path": "/Users/landonmckell/Downloads/products_and_images/images"
+	},
+	{
+		"name": "Ecommerce",
+		"path": "/Users/landonmckell/Udemy/Ecommerce"
+	}
+],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#411A5E",
+      "titleBar.activeBackground": "#5B2584",
+      "titleBar.activeForeground": "#FCF9FD"
+    }
+  }
+}
