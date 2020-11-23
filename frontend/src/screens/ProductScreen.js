@@ -13,7 +13,7 @@ const ProductScreen = ({ match }) => {
     };
 
     fetchProduct();
-  }, []);
+  }, [match]);
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
@@ -65,7 +65,7 @@ const ProductScreen = ({ match }) => {
                 <button
                   type="button"
                   className="btn btn-secondary btn-lg btn-block"
-                  disabled={product.countInStock == 0}
+                  disabled={product.countInStock === 0}
                 >
                   Add to Cart
                 </button>
