@@ -6,7 +6,8 @@ import { listProductDetails } from "../actions/productActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ match, history }) => {
+  const [qty, setQty] = useState(0);
   const dispatch = useDispatch();
 
   const productDetails = useSelector(state => state.productDetails);
@@ -15,6 +16,10 @@ const ProductScreen = ({ match }) => {
   useEffect(() => {
     dispatch(listProductDetails(match.params.id));
   }, [dispatch, match]);
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
 
   return (
     <>
@@ -68,10 +73,33 @@ const ProductScreen = ({ match }) => {
                     </div>
                   </div>
                 </li>
+                {product.countInStock > 0 && (
+                  <li className="list-group-item">
+                    <div className="row">
+                      <div className="col">Qty</div>
+                      <div className="col">
+                        <div className="form-group">
+                          <select
+                            className="form-control"
+                            value={qty}
+                            onChange={e => setQty(e.target.value)}
+                          >
+                            {[...Array(product.countInStock).keys()].map(x => (
+                              <option key={x + 1} value={x + 1}>
+                                {x + 1}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                )}
                 <li className="list-group-item">
                   <button
                     type="button"
-                    className="btn btn-secondary btn-lg btn-block"
+                    onClick={addToCartHandler}
+                    className="btn btn-primary btn-lg btn-block"
                     disabled={product.countInStock === 0}
                   >
                     Add to Cart
