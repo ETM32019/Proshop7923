@@ -3,13 +3,13 @@ import React from "react";
 const Loader = () => {
   return (
     <>
-      <div class="d-flex justify-content-center">
+      <div className="d-flex justify-content-center">
         <div
           className="spinner-border d-block mx-auto"
           style={{width: "100px", height: "100px"}}
           role="status"
         >
-          <span class="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </div>
       </div>
     </>
