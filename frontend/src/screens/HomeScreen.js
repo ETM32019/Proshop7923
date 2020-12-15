@@ -34,6 +34,13 @@ const HomeScreen = () => {
           ))}
         </div>
       )}
+      <div
+        className="btn btn-primary"
+        type="button"
+        onClick={() => alert("bitch ass")}
+      >
+        Primary
+      </div>
     </>
   );
 };
