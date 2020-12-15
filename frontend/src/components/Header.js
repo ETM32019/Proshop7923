@@ -1,7 +1,17 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {logout }from "../actions/userActions";
 
 const Header = () => {
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,11 +37,42 @@ const Header = () => {
                   <i className="fas fa-shopping-cart"></i> Cart
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">
-                  <i className="fas fa-user"></i> Sign In
-                </Link>
-              </li>
+              {userInfo ? (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="username"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    {userInfo.name}
+                  </a>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <Link className="dropdown-item" to="/profile">
+                      Profile
+                    </Link>
+                    <Link
+                      className="dropdown-item"
+                      to="/logout"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </Link>
+                  </div>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/login">
+                    <i className="fas fa-user"></i> Sign In
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
