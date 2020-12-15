@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {logout }from "../actions/userActions";
+import { logout } from "../actions/userActions";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const Header = () => {
                     </Link>
                     <Link
                       className="dropdown-item"
-                      to="/logout"
+                      to="/"
                       onClick={logoutHandler}
                     >
                       Logout
