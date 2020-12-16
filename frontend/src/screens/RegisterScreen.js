@@ -92,7 +92,7 @@ const RegisterScreen = ({ location, history }) => {
           />
         </div>
         <button type="submit" className="btn btn-primary">
-          Sign In
+          Register
         </button>
       </form>
       <div className="row py-3">
