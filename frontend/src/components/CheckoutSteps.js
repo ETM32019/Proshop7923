@@ -3,49 +3,65 @@ import { Link } from "react-router-dom";
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
   return (
-    <ul class="nav justify-content-center mb-4">
-      <li class="nav-item">
+    <ul className="nav justify-content-center mb-4">
+      <li className="nav-item">
         {step1 ? (
-          <Link class="nav-link" to="/login">
+          <Link className="nav-link" to="/login">
             Sign In
           </Link>
         ) : (
-          <Link class="nav-link disabled" aria-disabled="true" tabindex="-1">
+          <div
+            className="nav-link disabled"
+            aria-disabled="true"
+            tabIndex="-1"
+          >
             Sign In
-          </Link>
+          </div>
         )}
       </li>
-      <li class="nav-item">
+      <li className="nav-item">
         {step2 ? (
-          <Link class="nav-link" to="/shipping">
+          <Link className="nav-link" to="/shipping">
             Shipping
           </Link>
         ) : (
-          <Link class="nav-link disabled" aria-disabled="true" tabindex="-1">
+          <div
+            className="nav-link disabled"
+            aria-disabled="true"
+            tabIndex="-1"
+          >
             Shipping
-          </Link>
+          </div>
         )}
       </li>
-      <li class="nav-item">
+      <li className="nav-item">
         {step3 ? (
-          <Link class="nav-link" to="/payment">
+          <Link className="nav-link" to="/payment">
             Payment
           </Link>
         ) : (
-          <Link class="nav-link disabled" aria-disabled="true" tabindex="-1">
+          <div
+            className="nav-link disabled"
+            aria-disabled="true"
+            tabIndex="-1"
+          >
             Payment
-          </Link>
+          </div>
         )}
       </li>
-      <li class="nav-item">
+      <li className="nav-item">
         {step4 ? (
-          <Link class="nav-link" to="/placeorder">
+          <Link className="nav-link" to="/placeorder">
             Place Order
           </Link>
         ) : (
-          <Link class="nav-link disabled" aria-disabled="true" tabindex="-1">
+          <div
+            className="nav-link disabled"
+            aria-disabled="true"
+            tabIndex="-1"
+          >
             Place Order
-          </Link>
+          </div>
         )}
       </li>
     </ul>

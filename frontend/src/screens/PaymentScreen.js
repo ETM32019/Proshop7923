@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingAddress } from "../actions/cartActions";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { savePaymentMethod } from "../actions/cartActions";
@@ -28,12 +27,12 @@ const PaymentScreen = ({ history }) => {
       <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <form onSubmit={submitHandler}>
-        <div class="form-group">
+        <div className="form-group">
           <legend>Select Method</legend>
           <div className="col">
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="radio"
                 name="paymentMethod"
                 id="PayPal"
@@ -41,7 +40,7 @@ const PaymentScreen = ({ history }) => {
                 checked
                 onChange={e => setPaymentMethod(e.target.value)}
               />
-              <label class="form-check-label" htmlFor="payPalLabel">
+              <label className="form-check-label" htmlFor="payPalLabel">
                 PayPal or Credit Card
               </label>
             </div>
