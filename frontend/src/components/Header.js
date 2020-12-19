@@ -73,6 +73,42 @@ const Header = () => {
                   </Link>
                 </li>
               )}
+              {userInfo && userInfo.isAdmin && (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="adminMenu"
+                    role="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    Admin
+                  </a>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <Link className="dropdown-item" to="/admin/userlist">
+                      Users
+                    </Link>
+                    <Link className="dropdown-item" to="/admin/productlist">
+                      Products
+                    </Link>
+                    <Link className="dropdown-item" to="/admin/orderlist">
+                      Orders
+                    </Link>
+                    <Link
+                      className="dropdown-item"
+                      to="/"
+                      onClick={logoutHandler}
+                    >
+                      Logout
+                    </Link>
+                  </div>
+                </li>
+              )}
             </ul>
           </div>
         </div>
