@@ -99,13 +99,6 @@ const Header = () => {
                     <Link className="dropdown-item" to="/admin/orderlist">
                       Orders
                     </Link>
-                    <Link
-                      className="dropdown-item"
-                      to="/"
-                      onClick={logoutHandler}
-                    >
-                      Logout
-                    </Link>
                   </div>
                 </li>
               )}

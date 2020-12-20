@@ -3,23 +3,27 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listUsers, deleteUsers } from "../actions/userActions";
+import { listProducts, deleteProduct } from "../actions/productActions";
 
-const UserListScreen = ({ history }) => {
+const ProductListScreen = ({ match, history }) => {
   const dispatch = useDispatch();
 
-  const userList = useSelector(state => state.userList);
-  const { loading, error, users } = userList;
+  const productList = useSelector(state => state.productList);
+  const { loading, error, products } = productList;
+
+  const productDelete = useSelector(state => state.productDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete
+  } = productDelete;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDelete = useSelector(state => state.userDelete);
-  const { success: successDelete } = userDelete;
-
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(listUsers());
+      dispatch(listProducts());
     } else {
       history.push("/login");
     }
@@ -27,13 +31,31 @@ const UserListScreen = ({ history }) => {
 
   const deleteHandler = id => {
     if (window.confirm("Are you sure?")) {
-      dispatch(deleteUsers(id));
+      dispatch(deleteProduct(id));
     }
+  };
+
+  const createProductHandler = e => {
+    // Create product handler
   };
 
   return (
     <>
-      <h1>Users</h1>
+      <div className="">
+        <div className="col">
+          <h1>Products</h1>
+        </div>
+        <div className="col text-right">
+          <button
+            className="btn btn-primary my-3"
+            onClick={createProductHandler}
+          >
+            <i className="fas fa-plus"></i> Create Product
+          </button>
+        </div>
+      </div>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -45,30 +67,21 @@ const UserListScreen = ({ history }) => {
               <tr>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>EMAIL</th>
-                <th>ADMIN</th>
+                <th>PRICE</th>
+                <th>CATEGORY</th>
+                <th>BRAND</th>
               </tr>
             </thead>
             <tbody>
-              {users.map(user => (
-                <tr key={user._id}>
-                  <td>{user._id}</td>
-                  <td>{user.name}</td>
+              {products.map(product => (
+                <tr key={product._id}>
+                  <td>{product._id}</td>
+                  <td>{product.name}</td>
+                  <td>${product.price}</td>
+                  <td>{product.category}</td>
+                  <td>{product.brand}</td>
                   <td>
-                    <a href={`mailto:${user.email}`}>{user.email}</a>
-                  </td>
-                  <td>
-                    {user.isAdmin ? (
-                      <i
-                        className="fas fa-check"
-                        style={{ color: "green" }}
-                      ></i>
-                    ) : (
-                      <i className="fas fa-times" style={{ color: "red" }}></i>
-                    )}
-                  </td>
-                  <td>
-                    <Link to={`/admin/user/${user._id}/edit`}>
+                    <Link to={`/admin/product/${product._id}/edit`}>
                       <button type="button" className="btn btn-light btn-sm">
                         <i className="fas fa-edit"></i>
                       </button>
@@ -76,7 +89,7 @@ const UserListScreen = ({ history }) => {
                     <button
                       type="button"
                       className="btn btn-danger btn-sm"
-                      onClick={() => deleteHandler(user._id)}
+                      onClick={() => deleteHandler(product._id)}
                     >
                       <i className="fas fa-trash"></i>
                     </button>
@@ -91,4 +104,4 @@ const UserListScreen = ({ history }) => {
   );
 };
 
-export default UserListScreen;
+export default ProductListScreen;
