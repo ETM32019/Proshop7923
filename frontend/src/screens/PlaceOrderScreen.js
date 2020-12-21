@@ -4,16 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
 import { createOrder } from "../actions/orderActions";
+// import { ORDER_CREATE_RESET } from "../constants/orderConstants";
+// import { USER_DETAILS_RESET } from "../constants/userConstants";
 
 const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch();
+
   const cart = useSelector(state => state.cart);
+
   if (!cart.shippingAddress.address) {
     history.push("/shipping");
   } else if (!cart.paymentMethod) {
     history.push("/payment");
   }
-
   // calculate prices
   const addDecimals = num => {
     return (Math.round(num * 100) / 100).toFixed(2);
@@ -22,6 +25,7 @@ const PlaceOrderScreen = ({ history }) => {
   cart.itemsPrice = addDecimals(
     cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   );
+  // if product total cost is less than $100 then shipping cost is $100
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
   cart.totalPrice = (
@@ -36,8 +40,8 @@ const PlaceOrderScreen = ({ history }) => {
   useEffect(() => {
     if (success) {
       history.push(`/order/${order._id}`);
-      // Dispatch user details reset
-      // Dispatch order create reset
+      // dispatch({ type: USER_DETAILS_RESET });
+      // dispatch({ type: ORDER_CREATE_RESET });
 
       // eslint-disable-next-line
     }

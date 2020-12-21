@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { getOrderDetails, payOrder } from "../actions/orderActions";
-import {ORDER_PAY_RESET} from '../constants/orderConstants'
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
 
   const [sdkReady, setSdkReady] = useState(false);
+
   const dispatch = useDispatch();
 
   const orderDetails = useSelector(state => state.orderDetails);
@@ -20,7 +21,11 @@ const OrderScreen = ({ match }) => {
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
   if (!loading) {
+    //   Calculate prices
     const addDecimals = num => {
       return (Math.round(num * 100) / 100).toFixed(2);
     };
@@ -31,6 +36,10 @@ const OrderScreen = ({ match }) => {
   }
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push("/login");
+    }
+
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get("/api/config/paypal");
       const script = document.createElement("script");
@@ -45,7 +54,7 @@ const OrderScreen = ({ match }) => {
     };
 
     if (!order || successPay) {
-      dispatch({type: ORDER_PAY_RESET})
+      dispatch({ type: ORDER_PAY_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -56,10 +65,10 @@ const OrderScreen = ({ match }) => {
     }
   }, [order, orderId, successPay, dispatch]);
 
-  const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult)
-    dispatch(payOrder(orderId, paymentResult))
-  }
+  const successPaymentHandler = paymentResult => {
+    console.log(paymentResult);
+    dispatch(payOrder(orderId, paymentResult));
+  };
 
   return loading ? (
     <Loader />
@@ -110,7 +119,7 @@ const OrderScreen = ({ match }) => {
             <li className="list-group-item">
               <h2>Order Items</h2>
               {order.orderItems.length === 0 ? (
-                <Message>Your order is empty</Message>
+                <Message>Order is empty</Message>
               ) : (
                 <ul className="list-group list-group-flush">
                   {order.orderItems.map((item, index) => (
@@ -168,9 +177,6 @@ const OrderScreen = ({ match }) => {
                   <div className="col">Total</div>
                   <div className="col">${order.totalPrice}</div>
                 </div>
-              </li>
-              <li className="list-group-item">
-                {error && <Message variant="danger">{error}</Message>}
               </li>
               {!order.isPaid && (
                 <li className="list-group-item">
