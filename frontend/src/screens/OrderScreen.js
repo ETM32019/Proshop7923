@@ -5,8 +5,15 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { getOrderDetails, payOrder } from "../actions/orderActions";
-import { ORDER_PAY_RESET } from "../constants/orderConstants";
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder
+} from "../actions/orderActions";
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET
+} from "../constants/orderConstants";
 
 const OrderScreen = ({ match, history }) => {
   const orderId = match.params.id;
@@ -20,6 +27,9 @@ const OrderScreen = ({ match, history }) => {
 
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector(state => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
@@ -53,8 +63,9 @@ const OrderScreen = ({ match, history }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay) {
+    if (!order || successPay || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -63,11 +74,15 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [order, orderId, successPay, dispatch]);
+  }, [order, orderId, successPay, dispatch, successDeliver, history, userInfo]);
 
   const successPaymentHandler = paymentResult => {
     console.log(paymentResult);
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -111,7 +126,7 @@ const OrderScreen = ({ match, history }) => {
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">Paid on {order.paidAt.substring(0, 10)}</Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
@@ -191,6 +206,21 @@ const OrderScreen = ({ match, history }) => {
                   )}
                 </li>
               )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <li className="list-group-item">
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-block"
+                      onClick={deliverHandler}
+                    >
+                      Mark as Delivered
+                    </button>
+                  </li>
+                )}
             </ul>
           </div>
         </div>

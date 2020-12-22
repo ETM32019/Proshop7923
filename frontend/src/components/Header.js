@@ -41,7 +41,7 @@ const Header = () => {
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
-                    href="#"
+                    href="!#"
                     id="username"
                     role="button"
                     data-toggle="dropdown"
@@ -77,7 +77,7 @@ const Header = () => {
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
-                    href="#"
+                    href="!#"
                     id="adminMenu"
                     role="button"
                     data-toggle="dropdown"
