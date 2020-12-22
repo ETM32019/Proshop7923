@@ -21,6 +21,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState("");
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -52,6 +53,29 @@ const ProductEditScreen = ({ match, history }) => {
       }
     }
   }, [dispatch, history, productId, product, successUpdate]);
+
+  const uploadFileHandler = async e => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      };
+
+      const { data } = await axios.post("/api/upload", formData, config);
+
+      setImage(data);
+      setUploading(false);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
 
   const submitHandler = e => {
     e.preventDefault();
@@ -116,6 +140,18 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={e => setImage(e.target.value)}
                 id="productEditImageInput"
               />
+              <div className="custom-file">
+                <input
+                  type="file"
+                  className="custom-file-input"
+                  id="image-file"
+                  onChange={uploadFileHandler}
+                />
+                <label className="custom-file-label" htmlFor="custom-file">
+                  Choose file
+                </label>
+              </div>
+              {uploading && <Loader />}
             </div>
             <div className="form-group">
               <label htmlFor="brandLabel">Brand</label>
