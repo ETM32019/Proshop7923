@@ -37,7 +37,7 @@ const Cart = ({ match, location, history }) => {
         ) : (
           <ul className="list-group list-group-flush">
             {cartItems.map(item => (
-              <li class="list-group-item" key={item.product}>
+              <li className="list-group-item" key={item.product}>
                 <div className="row">
                   <div className="col-md-2">
                     <img
@@ -72,7 +72,7 @@ const Cart = ({ match, location, history }) => {
                   <div className="col-md-2">
                     <button
                       type="button"
-                      class="btn btn-light"
+                      className="btn btn-light"
                       onClick={() => removeFromCartHandler(item.product)}
                     >
                       <i className="fas fa-trash"></i>
@@ -87,7 +87,7 @@ const Cart = ({ match, location, history }) => {
       <div className="col-md-4">
         <div className="card">
           <ul className="list-group list-group-flush">
-            <li class="list-group-item">
+            <li className="list-group-item">
               <h2>
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 items
@@ -97,7 +97,7 @@ const Cart = ({ match, location, history }) => {
                 .reduce((acc, item) => acc + item.qty * item.price, 0)
                 .toFixed(2)}
             </li>
-            <li class="list-group-item">
+            <li className="list-group-item">
               <button
                 type="button"
                 className="btn btn-primary btn-block"

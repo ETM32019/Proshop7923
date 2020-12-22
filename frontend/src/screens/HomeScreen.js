@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Product from "../components/Product";
 import Message from "../components/Message";
 import Loader from "../components/Loader";

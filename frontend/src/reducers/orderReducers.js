@@ -111,7 +111,6 @@ export const orderDeliverReducer = (state = {}, action) => {
       };
     case ORDER_DELIVER_RESET:
       return {};
-
     default:
       return state;
   }

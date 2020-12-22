@@ -21,7 +21,6 @@ const OrderListScreen = ({ history }) => {
       history.push("/login");
     }
   }, [dispatch, history, userInfo]);
-
   return (
     <>
       <h1>Orders</h1>
@@ -48,7 +47,7 @@ const OrderListScreen = ({ history }) => {
                   <td>{order._id}</td>
                   <td>{order.user && order.user.name}</td>
                   <td>{order.createdAt.substring(0, 10)}</td>
-                  <td>{order.totalPrice}</td>
+                  <td>${order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
                       order.paidAt.substring(0, 10)
@@ -57,8 +56,8 @@ const OrderListScreen = ({ history }) => {
                     )}
                   </td>
                   <td>
-                    {order.isDeliveredAt ? (
-                      order.paidAt.substring(0, 10)
+                    {order.isDelivered ? (
+                      order.deliveredAt.substring(0, 10)
                     ) : (
                       <i className="fas fa-times" style={{ color: "red" }}></i>
                     )}
