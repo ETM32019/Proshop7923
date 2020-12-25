@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
+import Meta from "../components/Meta";
 import { useDispatch, useSelector } from "react-redux";
 import {
   listProductDetails,
@@ -66,6 +67,7 @@ const ProductScreen = ({ match, history }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
+        <Meta title={product.name} />
           <div className="row">
             <div className="col-md-6">
               <img
