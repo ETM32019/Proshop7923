@@ -31,8 +31,15 @@ const ProductScreen = ({ match, history }) => {
   } = productReviewCreate;
 
   useEffect(() => {
+    if (successProductReview) {
+      alert("Review Submitted!");
+      setRating(0);
+      setComment("");
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
+    }
+
     dispatch(listProductDetails(match.params.id));
-  }, [dispatch, match]);
+  }, [dispatch, match, successProductReview]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -154,7 +161,7 @@ const ProductScreen = ({ match, history }) => {
                   <li className="list-group-item" key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
-                    <p>{review.createAt.substring(0, 10)}</p>
+                    <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>
                   </li>
                 ))}
@@ -199,7 +206,7 @@ const ProductScreen = ({ match, history }) => {
                       <button
                         disabled={loadingProductReview}
                         type="submit"
-                        className="btn btn-primary"
+                        className="btn btn-primary btn-sm"
                       >
                         Submit
                       </button>

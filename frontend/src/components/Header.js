@@ -1,7 +1,9 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../actions/userActions";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -104,6 +106,7 @@ const Header = () => {
               )}
             </ul>
           </div>
+          <Route render={({ history }) => <SearchBox history={history} />} />
         </div>
       </nav>
     </header>
